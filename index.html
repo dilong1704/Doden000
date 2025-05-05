@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Trò chơi Đỏ Đen</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            text-align: center;
+            margin-top: 50px;
+        }
+        h1 {
+            color: #333;
+        }
+        .btn {
+            padding: 10px 20px;
+            font-size: 18px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+        .btn-red {
+            background-color: red;
+            color: white;
+        }
+        .btn-black {
+            background-color: black;
+            color: white;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        input[type="number"] {
+            padding: 8px;
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Trò chơi Đỏ Đen</h1>
+    <p>Số tiền của bạn: <span id="money">100</span> xu</p>
+
+    <p>Nhập số tiền cược:</p>
+    <input type="number" id="bet" min="1" value="10">
+
+    <p>Chọn màu để đặt cược:</p>
+    <button class="btn btn-red" onclick="datCuoc('đỏ')">ĐỎ</button>
+    <button class="btn btn-black" onclick="datCuoc('đen')">ĐEN</button>
+
+    <div id="result"></div>
+
+    <script>
+        let tien = 100;
+
+        function datCuoc(chon) {
+            let cuoc = parseInt(document.getElementById("bet").value);
+            if (isNaN(cuoc) || cuoc <= 0 || cuoc > tien) {
+                alert("Vui lòng nhập số tiền cược hợp lệ.");
+                return;
+            }
+
+            let ketQua = Math.random() < 0.5 ? "đỏ" : "đen";
+            let result = document.getElementById("result");
+
+            if (chon === ketQua) {
+                tien += cuoc;
+                result.innerText = `Kết quả: ${ketQua.toUpperCase()} - Bạn thắng!`;
+            } else {
+                tien -= cuoc;
+                result.innerText = `Kết quả: ${ketQua.toUpperCase()} - Bạn thua!`;
+            }
+
+            document.getElementById("money").innerText = tien;
+
+            if (tien <= 0) {
+                alert("Bạn đã hết tiền. Trò chơi kết thúc.");
+                document.querySelectorAll("button").forEach(btn => btn.disabled = true);
+            }
+        }
+    </script>
+</body>
+</html>
